@@ -7,16 +7,14 @@ import com.example.energymanagment.Records.AvgWithCleanEnergy;
 import com.example.energymanagment.Services.GBEnergyService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/energy")
+@CrossOrigin(origins = "http://localhost:5173")
 public class GBEnergyController {
 
     private final GBEnergyService gbEnergyService;
