@@ -14,7 +14,10 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/energy")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://energymanagment-frontend.onrender.com"
+})
 public class GBEnergyController {
 
     private final GBEnergyService gbEnergyService;
