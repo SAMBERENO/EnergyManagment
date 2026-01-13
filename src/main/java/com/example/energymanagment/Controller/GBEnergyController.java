@@ -1,16 +1,15 @@
 package com.example.energymanagment.Controller;
 
 
+import com.example.energymanagment.Records.AvgWithCleanEnergy;
 import com.example.energymanagment.Records.OptimalChargingWindow;
 import com.example.energymanagment.Repository.DateUtils;
-import com.example.energymanagment.Records.AvgWithCleanEnergy;
 import com.example.energymanagment.Services.GBEnergyService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/energy")
@@ -29,12 +28,7 @@ public class GBEnergyController {
 
     @GetMapping("/each-day-avg")
     public List<AvgWithCleanEnergy> eachDayAvg() {
-        return IntStream.range(0, 3)
-                .mapToObj(day -> gbEnergyService.getAverageData(
-                        DateUtils.inDays(day),
-                        DateUtils.inDays(day + 1)
-                ))
-                .toList();
+        return List.of(gbEnergyService.getAverageData(DateUtils.today(), DateUtils.inDays(3)));
     }
 
 

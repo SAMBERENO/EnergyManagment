@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class GBEnergyService {
 
     private final CarbonIntensityService carbonIntensityService;
+    private final List<String> fuels = List.of("biomass", "nuclear", "hydro", "wind", "solar");
 
     public GBEnergyService(CarbonIntensityService carbonIntensityService) {
         this.carbonIntensityService = carbonIntensityService;
@@ -35,7 +36,7 @@ public class GBEnergyService {
         List<GenerationMix> averages = stats.entrySet().stream()
                 .map(e -> new GenerationMix(e.getKey(), e.getValue().getAverage()))
                 .toList();
-        List<String> cleanFuels = List.of("biomass", "nuclear", "hydro", "wind", "solar");
+        List<String> cleanFuels = fuels;
 
         double cleanEnergyperc = averages.stream()
                 .filter(e -> cleanFuels.contains(e.fuel()))
@@ -54,7 +55,7 @@ public class GBEnergyService {
 
     public OptimalChargingWindow findOptimalChargingWindow(int windowHours) {
         EnergyData energyData = carbonIntensityService.getEnergyData(
-                DateUtils.inDays(1),
+                DateUtils.today(),
                 DateUtils.inDays(3));
 
         List<CarbonData> intervals = energyData.data();
@@ -108,7 +109,7 @@ public class GBEnergyService {
 
 
     private double calculateCleanEnergyPercentage(List<CarbonData> intervals) {
-        List<String> cleanFuels = List.of("biomass", "nuclear", "hydro", "wind", "solar");
+        List<String> cleanFuels = fuels;
         return intervals.stream()
                 .flatMap(cd -> cd.generationmix().stream())
                 .filter(gm -> cleanFuels.contains(gm.fuel()))
